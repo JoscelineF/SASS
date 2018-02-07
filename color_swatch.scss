@@ -1,120 +1,104 @@
-// ----
-// libsass (v3.2.0-beta.6)
-// ----
+// define variables
+$redBase: #ff0000;
+$orangeBase: saturate(lighten(adjust-hue($redBase,39),5),7);
+$yellowBase: saturate(lighten(adjust-hue($redBase,64),6),13);
+$greenBase: desaturate(darken(adjust-hue($redBase,102),2),11);
+$blueBase: saturate(darken(adjust-hue($redBase,201),2),1);
+$purpleBase: saturate(darken(adjust-hue($redBase,296),2),1);
+$blackBase: #666;
+$bgcolor: #fff;
 
-body {
-	font-family: verdana;
-	font-size: 8px;
-	background-color: #000;
-}
-
-$redBase: #DC143C;
-$orangeBase: saturate(lighten(adjust_hue($redBase, 39), 5), 7);
-$yellowBase: saturate(lighten(adjust_hue($redBase, 64), 6), 13);
-$greenBase: desaturate(darken(adjust_hue($redBase, 102), 2), 11);
-$blueBase: saturate(darken(adjust_hue($redBase, 201), 2), 1);
-$purpleBase: saturate(darken(adjust_hue($redBase, 296), 2), 1);
-$blackBase: #777;
-$bgc: #fff;
-
-@mixin swatchesDarken($color) {
-    @for $i from 1 through 10 {
-    	$x:$i+11;
-        li:nth-child(#{$x}) {
-    		$n:$i*5;
-    		$bgc:darken($color,$n);
-    		background-color: $bgc;
-	    	&:hover:before {
-	    		content: "#{$bgc}";
-	    		color: lighten($bgc,40);
-	    		font-family: verdana;
-	    		font-size: 8px;
-	    		padding: 2px;
-	    	}
-    	}
+//create lighten mixin
+@mixin swatchLighten($color) {
+  @for $i from 1 through 10 {
+    $j: 11-$i;
+    li:nth-child(#{$j}) {
+      $n:$i*5;
+      $bgcolor: lighten($color,$n);
+      background-color: $bgcolor;      
+      &:hover:before {   //show the color no. when hover
+        content: "#{$bgcolor}";
+        color: darken($bgcolor,40);
+        font-family: Helvetica, serif;
+        font-size: 9px;
+        padding:3px; 
+      }
     }
+  }
 }
-@mixin swatchesLighten($color) {
-    @for $i from 1 through 10 {
-    	$x:11-$i;
-        li:nth-child(#{$x}) {
-    		$n:$i*5;
-    		$bgc:lighten($color,$n);
-    		background-color: $bgc;
-	    	&:hover:before {
-	    		content: "#{$bgc}";
-	    		color: darken($bgc,40);
-	    		font-family: verdana;
-	    		font-size: 8px;
-	    		padding: 2px;
-		    }
-    	}
+
+// create darken mixin
+@mixin swatchDarken($color) {
+  @for $i from 1 through 10 {
+    $j: $i+11;
+    li:nth-child(#{$j}) {
+      $n:$i*5;
+      $bgcolor: darken($color,$n);
+      background-color: $bgcolor;      
+      &:hover:before {   //show the color no. when hover
+        content: "#{$bgcolor}";
+        color: lighten($bgcolor,40);
+        font-family: Helvetica, serif;
+        font-size: 9px;
+        padding:3px;        
+      }
     }
+  }
+  li:nth-child(11) {
+    background-color: $color;
+    &:hover:before {
+      content: "#{$color}";
+        color: #fff;
+        font-family: Helvetica, serif;
+        font-size: 9px;
+        padding:3px;  
+    }
+  }
 }
 
-
-
-.swatches li {    
-	width: 4.7619047619%;
-	float: left;
-	height: 60px;
-  list-style: none outside none;
+.swatches li{
+  width: (100%/21);
+  float:left;
+  height:60px;
+  list-style:none outside none;
 }
 
-
-ul.red { 
-	@include swatchesLighten($redBase);
-	@include swatchesDarken($redBase);
-	li:nth-child(11) {
-		background-color: $redBase;
-	}
+ul.red {
+  @include swatchLighten($redBase);
+  @include swatchDarken($redBase);  
+}
+ul.orange {
+  @include swatchLighten($orangeBase);
+  @include swatchDarken($orangeBase);  
+}
+ul.yellow {
+  @include swatchLighten($yellowBase);
+  @include swatchDarken($yellowBase);  
+}
+ul.green {
+  @include swatchLighten($greenBase);
+  @include swatchDarken($greenBase);  
+}
+ul.blue {
+  @include swatchLighten($blueBase);
+  @include swatchDarken($blueBase);  
+}
+ul.purple {
+  @include swatchLighten($purpleBase);
+  @include swatchDarken($purpleBase);  
+}
+ul.black {
+  @include swatchLighten($blackBase);
+  @include swatchDarken($blackBase);  
 }
 
-ul.orange { 
-	@include swatchesLighten($orangeBase);
-	@include swatchesDarken($orangeBase);
-	li:nth-child(11) {
-		background-color: $orangeBase;
-	}
+*{
+  box-sizing: border-box;
+}
+body{
+  background-color: #aaa;
 }
 
-
-ul.yellow { 
-	@include swatchesLighten($yellowBase);
-	@include swatchesDarken($yellowBase);
-	li:nth-child(11) {
-		background-color: $yellowBase;
-	}
-}
-
-ul.green { 
-	@include swatchesLighten($greenBase);
-	@include swatchesDarken($greenBase);
-	li:nth-child(11) {
-		background-color: $greenBase;
-	}
-}
-
-ul.blue { 
-	@include swatchesLighten($blueBase);
-	@include swatchesDarken($blueBase);
-	li:nth-child(11) {
-		background-color: $blueBase;
-	}
-}
-
-ul.purple { 
-	@include swatchesLighten($purpleBase);
-	@include swatchesDarken($purpleBase);
-	li:nth-child(11) {
-		background-color: $purpleBase;
-	}
-}
-
-ul.black { 
-	@include swatchesLighten($blackBase);
-	@include swatchesDarken($blackBase);
-	li:nth-child(11) {
-		background-color: $blackBase;
-	}
+ul{  
+  padding:10px;  
 }
